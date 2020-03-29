@@ -57,9 +57,11 @@ class MainActivity : AppCompatActivity() {
 
                     if(primaryProgressStatus==100){
 
+
+
                         val intent = Intent(this, Dashboard::class.java)
                         startActivity(intent)
-
+                        finish()
 
                     }
 
