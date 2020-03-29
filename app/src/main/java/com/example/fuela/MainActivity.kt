@@ -1,5 +1,6 @@
 package com.example.fuela
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
@@ -51,7 +52,19 @@ class MainActivity : AppCompatActivity() {
                 primaryProgressStatus += 1
 
                 try {
+
                     Thread.sleep(20)
+
+                    if(primaryProgressStatus==100){
+
+                        val intent = Intent(this, Dashboard::class.java)
+                        startActivity(intent)
+
+
+                    }
+
+
+
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
                 }
