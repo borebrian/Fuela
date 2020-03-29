@@ -17,41 +17,49 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
+    var isStarted = false
+    var progressStatus = 0
+    var handler: Handler? = null
+    var secondaryHandler: Handler? = Handler()
+    var primaryProgressStatus = 0
+    var secondaryProgressStatus = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val progressbar1: ProgressBar
-        val progressbar2: ProgressBar
-        val progressbar3: ProgressBar
-        val progressbar4: ProgressBar
-        val progressbar5: ProgressBar
+        handler = Handler(Handler.Callback {
+            if (isStarted) {
+                progressStatus++
+            }
+            progressBar.progress = progressStatus
+            //textViewHorizontalProgress.text = "${progressStatus}/${progressBarHorizontal.max}"
+            handler?.sendEmptyMessageDelayed(0, 100)
 
-        var intValue = 0
-        val handler = Handler()
+            true
 
-        progressbar1 = findViewById(R.id.progressBar) as ProgressBar
-        progressbar1.getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN)
 
-        fun run() {
-            // TODO Auto-generated method stub
-            while (intValue < 100)
-            {
-                intValue++
-                handler.post(object:Runnable {
-                    public override fun run() {
-                        progressbar1.setProgress(intValue)
+        })
+        startProgress()
 
-                    }
-                })
-                try
-                {
-                    Thread.sleep(300)
-                }
-                catch (e:InterruptedException) {
+    }
+
+    fun startProgress(){
+        primaryProgressStatus = 0
+        secondaryProgressStatus = 0
+        Thread(Runnable {
+            while (primaryProgressStatus < 100) {
+                primaryProgressStatus += 1
+
+                try {
+                    Thread.sleep(20)
+                } catch (e: InterruptedException) {
                     e.printStackTrace()
                 }
-            }
-        }
+progressBar.progress=primaryProgressStatus
+
+                }
+
+
+        }).start()
     }
 }
