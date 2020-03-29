@@ -53,18 +53,15 @@ class MainActivity : AppCompatActivity() {
 
                 try {
 
-                    Thread.sleep(20)
+                    Thread.sleep(100)
 
                     if(primaryProgressStatus==100){
-
-
 
                         val intent = Intent(this, Dashboard::class.java)
                         startActivity(intent)
                         finish()
 
                     }
-
 
 
                 } catch (e: InterruptedException) {
