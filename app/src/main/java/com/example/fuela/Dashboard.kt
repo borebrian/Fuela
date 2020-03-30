@@ -7,6 +7,7 @@ import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebView
 import android.widget.Button
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
@@ -25,6 +26,7 @@ class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceive
         setContentView(R.layout.activity_dashboard)
 
         registerReceiver(ConnectivityReceiver(), IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        loadURL()
     }
     override fun onResume() {
         super.onResume()
@@ -33,13 +35,16 @@ class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceive
     private fun showToast(isConnected: Boolean) {
         if (!isConnected) {
 //            Toast.makeText(this, "You are offline now.!!!", Toast.LENGTH_LONG).show()
-            noInteret.visibility=View.VISIBLE
+            loading.visibility=View.VISIBLE
             loading.visibility=View.GONE
+            webview.visibility=View.GONE
 
 
         } else {
-            noInteret.visibility=View.GONE
-            loading.visibility=View.VISIBLE
+            loading.visibility=View.GONE
+            loading.visibility=View.GONE
+            webview.visibility=View.VISIBLE
+
 //            if (networkType()) {
 //                Toast.makeText(this, "You are online now.!!!" + "\n Connected to Wifi Network", Toast.LENGTH_LONG).show()
 //            } else {
@@ -52,5 +57,9 @@ class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceive
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         val isWifi: Boolean = activeNetwork?.type == ConnectivityManager.TYPE_WIFI
         return isWifi
+    }
+    fun  loadURL(){
+        val myWebView: WebView = findViewById(R.id.webview)
+        myWebView.loadUrl("http://fuela2-001-site1.atempurl.com/Agents/Log_in.aspx")
     }
 }

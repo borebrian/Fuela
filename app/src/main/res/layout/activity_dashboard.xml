@@ -86,13 +86,104 @@
 
 
     </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="405dp"
+        android:id="@+id/noInteret"
+        android:layout_height="350dp"
+        android:background="#68213A"
+        app:cardBackgroundColor="#68213A"
+        android:elevation="10dp"
+
+        app:cardCornerRadius="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.262" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/no_internet2">
+
+            </ImageView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:fontFamily="@font/century"
+                android:gravity="center"
+                android:text="Whoops!"
+                android:textSize="30dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/century"
+                android:gravity="center"
+                android:text="No internet connection found.Check your connection or try again."
+                android:textSize="20dp" />
 
 
-<!--   <WebView-->
-<!--       android:id="@+id/webview"-->
-<!--       android:layout_width="match_parent"-->
-<!--       android:layout_height="match_parent">-->
+            app:layout_constraintVer`tical_bias="0.262" >
 
-<!--   </WebView>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:backgroundTint="@android:color/white"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Turn on W-FI"
+                    android:textColor=" #68213A"></Button>
+
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Turn on data"
+                    android:textColor="@android:color/white"></Button>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+   <WebView
+       android:id="@+id/webview"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+   </WebView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
