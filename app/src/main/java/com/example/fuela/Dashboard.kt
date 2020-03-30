@@ -32,13 +32,19 @@ class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceive
     }
     private fun showToast(isConnected: Boolean) {
         if (!isConnected) {
-            Toast.makeText(this, "You are offline now.!!!", Toast.LENGTH_LONG).show()
+//            Toast.makeText(this, "You are offline now.!!!", Toast.LENGTH_LONG).show()
+            noInteret.visibility=View.VISIBLE
+            loading.visibility=View.GONE
+
+
         } else {
-            if (networkType()) {
-                Toast.makeText(this, "You are online now.!!!" + "\n Connected to Wifi Network", Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(this, "You are online now.!!!" + "\n Connected to Cellular Network", Toast.LENGTH_LONG).show()
-            }
+            noInteret.visibility=View.GONE
+            loading.visibility=View.VISIBLE
+//            if (networkType()) {
+//                Toast.makeText(this, "You are online now.!!!" + "\n Connected to Wifi Network", Toast.LENGTH_LONG).show()
+//            } else {
+//                Toast.makeText(this, "You are online now.!!!" + "\n Connected to Cellular Network", Toast.LENGTH_LONG).show()
+//            }
         }
     }
     private fun networkType(): Boolean {

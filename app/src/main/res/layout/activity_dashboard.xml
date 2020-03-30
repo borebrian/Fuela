@@ -25,104 +25,68 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
     <androidx.cardview.widget.CardView
-        android:layout_width="405dp"
-        android:id="@+id/noInteret"
-        android:layout_height="350dp"
-        android:background="#68213A"
-        app:cardBackgroundColor="#68213A"
-        android:elevation="10dp"
+        android:id="@+id/loading"
 
-        app:cardCornerRadius="10dp"
+        android:layout_width="405dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="300dp"
+        app:cardElevation="5dp"
+        android:background="@android:color/white"
+        android:elevation="10dp"
         android:orientation="vertical"
+
+
+        android:paddingTop="350dp"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.262" >
-
-        <LinearLayout
+        app:layout_constraintVertical_bias="0.0">
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/no_internet2">
-
-            </ImageView>
-
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/century"
+                android:padding="1dp"
+                android:textSize="20dp"
                 android:gravity="center"
-                android:text="Whoops!"
-                android:textSize="30dp" />
+                android:text="loading..."
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:fontFamily="@font/century"
-                android:gravity="center"
-                android:text="No internet connection found.Check your connection or try again."
-                android:textSize="20dp" />
+            </TextView>
+<!--            <ProgressBar-->
+<!--                android:id="@+id/progressBar"-->
 
+<!--                style="?android:attr/progressBarStyleHorizontal"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="25dp"-->
+<!--                android:layout_margin="15dp"-->
 
-            app:layout_constraintVer`tical_bias="0.262" >
+<!--                android:layout_marginTop="28dp"-->
+<!--                android:indeterminate="false"-->
+<!--                android:max="100"-->
+<!--                android:minWidth="200dp"-->
+<!--                android:minHeight="50dp"-->
+<!--                android:progress="50"-->
+<!--                android:progressBackgroundTint="#E2E2EF"-->
+<!--                android:progressTint="@android:color/white" />-->
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:backgroundTint="@android:color/white"
-                        android:layout_weight="1"
-                        android:background="@android:color/white"
-                        android:padding="5dp"
-                        android:text="Turn on W-FI"
-                        android:textColor=" #68213A">
-                    </Button>
-
-
-
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@android:color/white"
-                        android:padding="5dp"
-                        android:text="Turn on data"
-                        android:textColor="@android:color/white">
-                    </Button>
-
-
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:backgroundTint="#68213A"
+            android:progressTint="@color/colorPrimary"
+            android:layout_height="wrap_content" />
 
 
     </androidx.cardview.widget.CardView>
+
 
 <!--   <WebView-->
 <!--       android:id="@+id/webview"-->
