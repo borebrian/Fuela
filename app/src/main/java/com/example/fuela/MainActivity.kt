@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             }
             progressBar.progress = progressStatus
             //textViewHorizontalProgress.text = "${progressStatus}/${progressBarHorizontal.max}"
-            handler?.sendEmptyMessageDelayed(0, 100)
+            handler?.sendEmptyMessageDelayed(0, 20)
 
             true
 
