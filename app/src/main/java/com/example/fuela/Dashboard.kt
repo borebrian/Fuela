@@ -60,6 +60,7 @@ class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceive
          webview.settings.javaScriptEnabled = true
         webview.settings.builtInZoomControls = false
         webview.settings.displayZoomControls = false
+        webview.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK)
 
         // Enable zooming in web view
 

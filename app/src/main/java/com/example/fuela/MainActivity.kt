@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
                 try {
 
-                    Thread.sleep(100)
+                    Thread.sleep(80)
 
                     if(primaryProgressStatus==100){
 
