@@ -29,6 +29,7 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Build
 import android.provider.Settings.ACTION_WIRELESS_SETTINGS
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.core.app.ComponentActivity
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
@@ -38,11 +39,14 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.Settings
 import android.webkit.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 
 class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceiverListener {
 
-    internal var url = "http://fuela2-001-site1.atempurl.com/Agents/Log_in.aspx"
+    internal var url = "http://fuela3-001-site1.itempurl.com/Agents/Log_in.aspx"
+    private val PERMISSION_REQUEST_CODE = 1
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
         showToast(isConnected)
     }
@@ -52,6 +56,7 @@ class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceive
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
+
         registerReceiver(
             ConnectivityReceiver(),
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
@@ -59,6 +64,23 @@ class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceive
 
 
         var wv: WebView? = null
+
+        if (Build.VERSION.SDK_INT >= 23)
+        {
+            if (checkPermission())
+            {
+                // Code for above or equal 23 API Oriented Device
+                // Your Permission granted already .Do next code
+            } else {
+                requestPermission(); // Code for permission
+            }
+        }
+        else
+        {
+
+            // Code for Below 23 API Oriented Device
+            // Do next code
+        }
 
 //SETTING TO LOAD FROM CACHE
         webview.webViewClient = myWebClient()
@@ -93,19 +115,29 @@ class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceive
         webview.settings.javaScriptCanOpenWindowsAutomatically = true
         webview.settings.mediaPlaybackRequiresUserGesture = false
         webview.loadUrl(url)
-        webview.setDownloadListener({ url, userAgent, contentDisposition, mimeType, contentLength ->
-            val request = DownloadManager.Request(Uri.parse(url))
-            request.setMimeType(mimeType)
-            request.addRequestHeader("cookie", CookieManager.getInstance().getCookie(url))
-            request.addRequestHeader("User-Agent", userAgent)
-            request.setDescription("Downloading file...")
-            request.setTitle(URLUtil.guessFileName(url, contentDisposition, mimeType))
-            request.allowScanningByMediaScanner()
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            request.setDestinationInExternalFilesDir(this@Dashboard, Environment.DIRECTORY_DOWNLOADS, ".pdf")
-            val dm = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-            dm.enqueue(request)
-            Toast.makeText(applicationContext, "Downloading File", Toast.LENGTH_LONG).show()
+        webview.setDownloadListener(object: DownloadListener {
+            override fun onDownloadStart(url:String, userAgent:String,
+                                         contentDisposition:String, mimeType:String,
+                                         contentLength:Long) {
+                val request = DownloadManager.Request(
+                    Uri.parse(url))
+                request.setMimeType(mimeType)
+                val cookies = CookieManager.getInstance().getCookie(url)
+                request.addRequestHeader("cookie", cookies)
+                request.addRequestHeader("User-Agent", userAgent)
+                request.setDescription("Downloading file...")
+                request.setTitle(URLUtil.guessFileName(url, contentDisposition,
+                    mimeType))
+                request.allowScanningByMediaScanner()
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                request.setDestinationInExternalPublicDir(
+                    Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(
+                        url, contentDisposition, mimeType))
+                val dm = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+                dm.enqueue(request)
+                Toast.makeText(getApplicationContext(), "Downloading File",
+                    Toast.LENGTH_LONG).show()
+            }
         })
         wifi.setOnClickListener(){
             startActivity(Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS))
@@ -206,6 +238,27 @@ class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceive
 
         val myWebView: WebView = findViewById(R.id.webview)
         myWebView.loadUrl("http://fuela2-001-site1.atempurl.com/Agents/Log_in.aspx")
+    }
+    private fun checkPermission():Boolean {
+        val result = ContextCompat.checkSelfPermission(this@Dashboard, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (result == PackageManager.PERMISSION_GRANTED)
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
+    }
+    private fun requestPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this@Dashboard, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        {
+            Toast.makeText(this@Dashboard, "Write External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show()
+        }
+        else
+        {
+            ActivityCompat.requestPermissions(this@Dashboard, arrayOf<String>(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), PERMISSION_REQUEST_CODE)
+        }
     }
 }
 
