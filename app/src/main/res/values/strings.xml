@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Fuela</string>
+    <string name="alertTitle">Confirm exit</string>
+    <string name="Negative">Yes</string>
+    <string name="message">Are you sure you want to exit app?</string>
+
+    <string name="Positive">Stay</string>
 </resources>

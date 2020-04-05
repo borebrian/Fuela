@@ -16,11 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.NoActionBar">
         <activity android:name=".Dashboard"
-
-            android:theme="@style/AppTheme"
-
-
-        >
+            android:enabled="true"
+            android:theme="@style/AppTheme">
             ></activity>
         <activity
             android:name=".MainActivity"
