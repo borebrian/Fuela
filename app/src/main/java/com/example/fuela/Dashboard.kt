@@ -1,5 +1,6 @@
 package com.example.fuela
 
+import android.app.DownloadManager
 import android.content.Context
 import android.content.IntentFilter
 import android.graphics.Bitmap
@@ -14,14 +15,11 @@ import android.widget.Button
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_dashboard.*
-import android.webkit.WebViewClient
 
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.webkit.WebView
 import android.widget.ProgressBar
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
+
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
@@ -29,7 +27,17 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Build
-import android.webkit.WebSettings
+import android.provider.Settings.ACTION_WIRELESS_SETTINGS
+import android.content.Intent
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.media.audiofx.BassBoost
+import android.net.Uri
+import android.os.Environment
+import android.provider.Settings
+import android.webkit.*
 
 
 class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceiverListener {
@@ -85,8 +93,33 @@ class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceive
         webview.settings.javaScriptCanOpenWindowsAutomatically = true
         webview.settings.mediaPlaybackRequiresUserGesture = false
         webview.loadUrl(url)
+        webview.setDownloadListener({ url, userAgent, contentDisposition, mimeType, contentLength ->
+            val request = DownloadManager.Request(Uri.parse(url))
+            request.setMimeType(mimeType)
+            request.addRequestHeader("cookie", CookieManager.getInstance().getCookie(url))
+            request.addRequestHeader("User-Agent", userAgent)
+            request.setDescription("Downloading file...")
+            request.setTitle(URLUtil.guessFileName(url, contentDisposition, mimeType))
+            request.allowScanningByMediaScanner()
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            request.setDestinationInExternalFilesDir(this@Dashboard, Environment.DIRECTORY_DOWNLOADS, ".pdf")
+            val dm = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            dm.enqueue(request)
+            Toast.makeText(applicationContext, "Downloading File", Toast.LENGTH_LONG).show()
+        })
+        wifi.setOnClickListener(){
+            startActivity(Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS))
 
+        }
+        data.setOnClickListener(){
+            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+
+        }
+        retry.setOnClickListener(){
+            webview.reload()
+        }
     }
+    
     inner class myWebClient : WebViewClient() {
 
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
@@ -104,6 +137,12 @@ class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceive
             return true
 
         }
+        override fun onReceivedError(view:WebView, request: WebResourceRequest, error: WebResourceError) {
+            //Your code to do
+            loading.visibility=View.GONE
+            webview.visibility=View.GONE
+            noInteret.visibility=View.VISIBLE
+            }
 
         override fun onPageFinished(view: WebView, url: String) {
 //
@@ -157,6 +196,8 @@ class Dashboard :  AppCompatActivity(), ConnectivityReceiver.ConnectivityReceive
         }
         // If it wasn't the Back key or there's no web page history, bubble up to the default
         // system behavior (probably exit the activity)
+
+
         return super.onKeyDown(keyCode, event)
     }
 
